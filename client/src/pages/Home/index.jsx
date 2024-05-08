@@ -1,14 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 function Home() {
+  const { user } = useSelector((state) => state.users);
   return (
     <div>
-      {' '}
-      <ul>
-        <li>sfs</li>
-        <li>fsf</li>
-        <li>sfs</li>
-      </ul>
+      <h1>Home</h1>
+      {user && <h1>{user.name}</h1>}
     </div>
   );
 }

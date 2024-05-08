@@ -4,26 +4,30 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ConfigProvider } from 'antd';
+import store from './redux/store';
+import { Provider } from 'react-redux';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ConfigProvider
-      theme={{
-        components: {
-          Button: {
-            colorPrimary: '#F55D00  ',
-            colorPrimaryHover: '#D13504 ',
-            borderRadius: 15,
+    <Provider store={store}>
+      <ConfigProvider
+        theme={{
+          components: {
+            Button: {
+              colorPrimary: '#F55D00  ',
+              colorPrimaryHover: '#D13504 ',
+              borderRadius: 15,
+            },
           },
-        },
-        token: {
-          borderRadius: '15px',
-          colorPrimary: '#F55D00  ',
-        },
-      }}
-    >
-      <App />
-    </ConfigProvider>
+          token: {
+            borderRadius: '15px',
+            colorPrimary: '#F55D00  ',
+          },
+        }}
+      >
+        <App />
+      </ConfigProvider>
+    </Provider>
   </React.StrictMode>
 );
 

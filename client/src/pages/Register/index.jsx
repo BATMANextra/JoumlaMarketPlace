@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Form, Input, message } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RegisterUser } from '../../apicalls/users';
+import { useDispatch } from 'react-redux';
+import { setLoader } from '../../redux/loadersSlice';
 
 const rules = [
   {
@@ -10,18 +12,30 @@ const rules = [
   },
 ];
 const Register = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onFinish = async (values) => {
     try {
+      dispatch(setLoader(true));
       const response = await RegisterUser(values);
+      navigate('/login');
+      dispatch(setLoader(false));
       if (response.success) {
         message.success(response.message);
       } else {
         throw new Error(response.message);
       }
     } catch (error) {
+      dispatch(setLoader(false));
       message.error(error.message);
     }
   };
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      navigate('/');
+    }
+  }, []);
   return (
     <div className="h-screen flex justify-center items-center">
       <div className="bg-zinc-200 p-6 rounded w-[450px]">
