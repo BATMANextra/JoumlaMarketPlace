@@ -1,13 +1,12 @@
 import { message } from 'antd';
 import React, { useEffect } from 'react';
 import { GetCurrentUser } from '../apicalls/users';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoader } from '../redux/loadersSlice';
 import { setUser } from '../redux/userSlice';
-import Home from '../pages/Home';
 
-const ProtectedPage = ({ childern }) => {
+function ProtectedPage({ childern }) {
   const { user } = useSelector((state) => state.users);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,17 +32,23 @@ const ProtectedPage = ({ childern }) => {
       validateToken();
     } else {
       navigate('/login');
-      message.error('');
     }
   }, []);
   return (
     user && (
       <div>
         <div className="flex justify-between items-center p-4 bg-[#F55D00]">
-          <h1 className="text-4xl text-white ml-10">Joumla</h1>
+          <Link className="Link1" to={'/'}>
+            <h1 className="text-4xl text-white ml-10">Joumla</h1>
+          </Link>
           <div className="bg-white py-2 px-5 mr-10 rounded-full flex gap-1 items-center">
             <i className="ri-user-fill cursor-pointer"></i>
-            <span className="underline cursor-pointer uppercase">
+            <span
+              className="underline cursor-pointer uppercase"
+              onClick={() => {
+                navigate('/profile');
+              }}
+            >
               {user.name}
             </span>
             <i
@@ -55,11 +60,10 @@ const ProtectedPage = ({ childern }) => {
             ></i>
           </div>
         </div>
-        <Home />
         <div className="p-5">{childern}</div>
       </div>
     )
   );
-};
+}
 
 export default ProtectedPage;

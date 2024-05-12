@@ -6,7 +6,9 @@ const dbConfig = require('./config/dbConfig');
 const port = process.env.PORT || 5000;
 
 const userRoute = require('./routes/usersRoute');
+const productsRoute = require('./routes/productsRoute');
 app.use('/api/users', userRoute);
+app.use('/api/products', productsRoute);
 
 app.listen(port, () =>
   console.log(`Node/Express server starting on port ${port}`)

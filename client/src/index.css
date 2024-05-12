@@ -8,15 +8,29 @@
   margin: 0;
   font-family: 'Rubik', sans-serif !important;
 }
-input {
+input,
+select,
+textarea {
   height: 45px !important;
   border: 1px solid #b9b9b9 !important;
+  width: 100%;
 }
-input:focus {
+input:focus,
+textarea:focus,
+select:focus {
   outline: none !important;
   border: 1px solid #313131 !important;
   box-shadow: none;
 }
 button {
   height: 45px !important;
+}
+.Link1 {
+  text-decoration: none;
+}
+table {
+  border: #dadada 1px solid;
+}
+i {
+  font-size: 20px !important;
 }
