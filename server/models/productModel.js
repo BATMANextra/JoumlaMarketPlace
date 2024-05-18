@@ -17,7 +17,7 @@ const productShema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    age: {
+    quantity: {
       type: Number,
       required: true,
     },
@@ -36,12 +36,7 @@ const productShema = new mongoose.Schema(
       default: false,
       require: true,
     },
-    accessoriesAvailabel: {
-      type: Boolean,
-      default: false,
-      require: true,
-    },
-    boxAvailabel: {
+    deliveryAvailabel: {
       type: Boolean,
       default: false,
       require: true,

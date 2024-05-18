@@ -37,7 +37,7 @@ const Login = () => {
     }
   }, []);
   return (
-    <div className="h-screen flex justify-center items-center">
+    <div className="h-screen flex justify-center items-center bg-zinc-200">
       <div className="bg-zinc-200 p-6 rounded w-[450px]">
         <h1>
           JOUMLA <span className="text-[#F55D00]">LOGIN</span>

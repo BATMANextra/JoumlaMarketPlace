@@ -6,6 +6,9 @@ import Register from './pages/Register';
 import ProtectedPage from './components/ProtectedPage';
 import Spinner from './components/Spinner';
 import Profile from './pages/profile';
+import Admin from './pages/Admin';
+import ProductInfo from './pages/ProductInfo';
+
 function App() {
   const { loading } = useSelector((state) => state.loaders);
   return (
@@ -22,8 +25,11 @@ function App() {
         <ProtectedPage />
         <main>
           <Routes>
+            <Route path="/product/:id" element={<ProductInfo />} />
+            
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </main>
       </div>

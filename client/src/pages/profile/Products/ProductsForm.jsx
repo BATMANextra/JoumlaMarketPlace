@@ -17,12 +17,8 @@ const additionalThings = [
     name: 'warrantyAvailabel',
   },
   {
-    label: 'Accessories Availabel ',
-    name: 'accessoriesAvailabel',
-  },
-  {
-    label: 'Box Availabel ',
-    name: 'boxAvailabel',
+    label: 'Delivery Availabel ',
+    name: 'deliveryAvailabel',
   },
 ];
 
@@ -39,6 +35,7 @@ function ProductsForm({
   selectedProudct,
   getData,
 }) {
+  const [selectedTab = '1', setSelectedTab] = React.useState('1');
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.users);
   const onFinish = async (values) => {
@@ -84,12 +81,17 @@ function ProductsForm({
       onOk={() => {
         formRef.current.submit();
       }}
+      {...(selectedTab === '2' && { footer: false })}
     >
       <div>
         <h1 className="text-primary text-xl text-center uppercase">
           {selectedProudct ? 'Edit Product' : 'Add Product'}
         </h1>
-        <Tabs defaultActiveKey="1">
+        <Tabs
+          defaultActiveKey="1"
+          activeKey={selectedTab}
+          onChange={(key) => setSelectedTab(key)}
+        >
           <Tabs.TabPane tab="General" key="1">
             <Form layout="vertical" ref={formRef} onFinish={onFinish}>
               <Form.Item label="Name" name="name" rules={rules}>
@@ -109,6 +111,10 @@ function ProductsForm({
                     <select>
                       <option value="">Select</option>
                       <option value="electronics">Electronics</option>
+                      <option value="rawmaterials">Raw Materials</option>
+                      <option value="accessories">Accessories</option>
+                      <option value="classic">Classic</option>
+                      <option value="books">Books</option>
                       <option value="fashion">Fashion</option>
                       <option value="home">Home</option>
                       <option value="sports">Sports</option>
@@ -117,7 +123,7 @@ function ProductsForm({
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label="Age" name="age" rules={rules}>
+                  <Form.Item label="Quantity" name="quantity" rules={rules}>
                     <Input type="number" />
                   </Form.Item>
                 </Col>
@@ -149,8 +155,8 @@ function ProductsForm({
           <Tabs.TabPane tab="Images" key="2" disabled={!selectedProudct}>
             <Images
               selectedProudct={selectedProudct}
-              getData={getData}
               setShowProductForm={setShowProductForm}
+              getData={getData}
             />
           </Tabs.TabPane>
         </Tabs>

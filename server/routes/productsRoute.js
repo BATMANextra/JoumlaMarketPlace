@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const Product = require('../models/productModel');
 const authMiddleware = require('../middlwares/authMiddleware');
+const cloudinary = require('../config/cloudinaryConfig');
+const multer = require('multer');
 
 //add new product
 router.post('/add-product', authMiddleware, async (req, res) => {
@@ -21,12 +23,43 @@ router.post('/add-product', authMiddleware, async (req, res) => {
 
 // get all products
 
-router.get('/get-products', async (req, res) => {
+router.post('/get-products', async (req, res) => {
   try {
-    const products = await Product.find().sort({ createdAt: -1 });
+    const { seller, category = [], status } = req.body;
+    let filters = {};
+    if (seller) {
+      filters.seller = seller;
+    }
+    if (status) {
+      filters.status = status;
+    }
+    // filters by category
+    if (category.length > 0) {
+      filters.category = { $in: category };
+    }
+
+    const products = await Product.find(filters)
+      .populate('seller')
+      .sort({ createdAt: -1 });
     res.send({
       success: true,
-      products,
+      data: products,
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+// get product by id
+router.get('/get-product-by-id/:id', async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id).populate('seller');
+    res.send({
+      success: true,
+      data: product,
     });
   } catch (error) {
     res.send({
@@ -59,6 +92,60 @@ router.delete('/delete-product/:id', authMiddleware, async (req, res) => {
     res.send({
       success: true,
       message: 'Product deleted successfully',
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+//get image from pc
+
+const storage = multer.diskStorage({
+  filename: function (req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  },
+});
+
+router.post(
+  '/upload-image-to-product',
+  authMiddleware,
+  multer({ storage: storage }).single('file'),
+  async (req, res) => {
+    try {
+      // upload image to cloudinary
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'joumla',
+      });
+
+      const productId = req.body.productId;
+      await Product.findByIdAndUpdate(productId, {
+        $push: { images: result.secure_url },
+      });
+      res.send({
+        success: true,
+        message: 'Image uploaded successfully',
+        data: result.secure_url,
+      });
+    } catch (error) {
+      res.send({
+        success: false,
+        message: error.message,
+      });
+    }
+  }
+);
+
+//upadate product status
+router.put('/update-product-status/:id', authMiddleware, async (req, res) => {
+  try {
+    const { status } = req.body;
+    await Product.findByIdAndUpdate(req.params.id, { status });
+    res.send({
+      success: true,
+      message: 'Product status updated successfully',
     });
   } catch (error) {
     res.send({
