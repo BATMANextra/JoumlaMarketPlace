@@ -1,14 +1,28 @@
 const router = require('express').Router();
 const Product = require('../models/productModel');
+const User = require('../models/userModel');
 const authMiddleware = require('../middlwares/authMiddleware');
 const cloudinary = require('../config/cloudinaryConfig');
 const multer = require('multer');
-
+const Notification = require('../models/notificationModel');
 //add new product
 router.post('/add-product', authMiddleware, async (req, res) => {
   try {
     const newProduct = new Product(req.body);
     await newProduct.save();
+
+    // sent notification to admin
+    const admins = await User.find({ role: 'admin' });
+    admins.forEach(async (admin) => {
+      const newNotification = new Notification({
+        user: admin._id,
+        order: `New product added by ${req.user.name}`,
+        title: 'New product',
+        onClick: `/admin`,
+        read: false,
+      });
+      await newNotification.save();
+    });
     res.send({
       success: true,
       message: 'Product added successfully',
@@ -142,7 +156,18 @@ router.post(
 router.put('/update-product-status/:id', authMiddleware, async (req, res) => {
   try {
     const { status } = req.body;
-    await Product.findByIdAndUpdate(req.params.id, { status });
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, {
+      status,
+    });
+    // send notificaton to seller
+    const newNotification = new Notification({
+      user: updatedProduct.seller,
+      order: `Your product ${updatedProduct.name} has been ${status}`,
+      title: 'Product status updated',
+      onClick: `/profile`,
+      read: false,
+    });
+    await newNotification.save();
     res.send({
       success: true,
       message: 'Product status updated successfully',

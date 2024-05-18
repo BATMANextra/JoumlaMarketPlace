@@ -3,6 +3,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoader } from '../../redux/loadersSlice';
 import { RegisterOrder } from '../../apicalls/orders';
+import { AddNotification } from '../../apicalls/notification';
 
 function OrderModel({ newOrder, setNewOrder, product, reloadData }) {
   const { user } = useSelector((state) => state.users);
@@ -21,6 +22,14 @@ function OrderModel({ newOrder, setNewOrder, product, reloadData }) {
       dispatch(setLoader(false));
       if (response.success) {
         message.success('Order added successfully');
+        // sent a notification to seller
+        await AddNotification({
+          title: 'New Order',
+          order: `A new order has been placed on your product ${product.name} by ${user.name}`,
+          user: product.seller._id,
+          onClick: `/profile`,
+          read: false,
+        });
         reloadData();
         setNewOrder(false);
       } else {

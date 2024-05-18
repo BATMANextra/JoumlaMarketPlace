@@ -22,13 +22,16 @@ router.post('/order-register', authMiddleware, async (req, res) => {
 // get all orders
 router.post('/get-all-orders', authMiddleware, async (req, res) => {
   try {
-    const { product, seller } = req.body;
+    const { product, seller, buyer } = req.body;
     let filters = {};
     if (product) {
       filters.product = product;
     }
     if (seller) {
       filters.seller = seller;
+    }
+    if (buyer) {
+      filters.buyer = buyer;
     }
     const orders = await Order.find(filters)
       .populate('product')

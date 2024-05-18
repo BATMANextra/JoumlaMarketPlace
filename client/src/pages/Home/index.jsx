@@ -6,6 +6,7 @@ import { message } from 'antd';
 import Divider from '../../components/Divider';
 import { useNavigate } from 'react-router-dom';
 import Filters from './Filters';
+import moment from 'moment';
 function Home() {
   const [showFilters, setShowFilters] = React.useState(true);
   const dispatch = useDispatch();
@@ -72,7 +73,7 @@ function Home() {
 
                 <div className="px-3 flex flex-col gap-1">
                   <h1 className="text-lg font-semibold">{product.name}</h1>
-                  <p className="text-sm">{product.description}</p>
+                  <p className="text-sm">Added on {moment().subtract(product.createdAt , "years").format("YYYY MM DD")}</p>
                   <Divider />
                   <span className="text-xl font-semibold text-orange-500">
                     {product.price}

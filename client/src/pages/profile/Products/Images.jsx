@@ -40,6 +40,7 @@ function Images({ selectedProudct, setShowProductForm, getData }) {
       if (response.success) {
         message.success(response.message);
         setImages(updatedImagesArray);
+        setFile(null);
         getData();
       } else {
         throw new Error(response.message);
@@ -73,6 +74,7 @@ function Images({ selectedProudct, setShowProductForm, getData }) {
           setFile(info.file);
           setShowPreview(true);
         }}
+        fileList={file ? [file] : []}
         showUploadList={showPreview}
       >
         <Button type="dashed">Upload Image</Button>

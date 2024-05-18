@@ -51,13 +51,23 @@ function Products() {
 
   const column = [
     {
+      title: 'Product',
+      dataIndex: 'image',
+      render: (text, record) => {
+        return (
+          <img
+            src={record?.images?.length > 0 ? record.images[0] : ''}
+            alt=""
+            className='w-20 h-20 object-cover rounded'
+          />
+        );
+      },
+    },
+    {
       title: 'Name',
       dataIndex: 'name',
     },
-    {
-      title: 'Description',
-      dataIndex: 'description',
-    },
+
     {
       title: 'Price',
       dataIndex: 'price',
