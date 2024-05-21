@@ -4,7 +4,11 @@ import { useDispatch } from 'react-redux';
 import { setLoader } from '../../redux/loadersSlice';
 import { useEffect } from 'react';
 import moment from 'moment';
-import { GetAllUsers, UpdateUserStatus } from '../../apicalls/users';
+import {
+  GetAllUsers,
+  UpdateUserRole,
+  UpdateUserStatus,
+} from '../../apicalls/users';
 
 function Users() {
   const [users, setUsers] = React.useState([]);
@@ -40,6 +44,22 @@ function Users() {
       message.error(error.message);
     }
   };
+  const onRolesUpdate = async (id, role) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await UpdateUserRole(id, role);
+      dispatch(setLoader(false));
+      if (response.success) {
+        message.success(response.message);
+        getData();
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      message.error(error.message);
+    }
+  };
 
   const column = [
     {
@@ -56,6 +76,34 @@ function Users() {
       render: (text, record) => {
         return record.role.toUpperCase();
       },
+    },
+    {
+      title: 'Role change',
+      dataIndex: 'action',
+      render: (text , record) => {
+        const { role, _id } = record;
+        return (
+          <div className="flex gap-3">
+            {role === 'user' && (
+              <span
+                className="underline cursor-pointer uppercase"
+                onClick={() => onRolesUpdate(_id, 'seller')}
+              >
+                user
+              </span>
+            )}
+            {role === 'seller' && (
+              <span
+                className="underline cursor-pointer uppercase"
+                onClick={() => onRolesUpdate(_id, 'user')}
+              >
+                seller
+              </span>
+            )}
+            {role === 'admin' && <span>admin</span>}
+          </div>
+        );
+      }
     },
     {
       title: 'Created At',

@@ -113,11 +113,17 @@ function ProductInfo() {
               <h1 className="text-2xl font-semibold">Seller Details</h1>
               <div className="flex justify-between mt-2 mr-5">
                 <span>Name</span>
-                <span>{product.seller.name}</span>
+                <span>
+                  {product.seller.name} {product.seller.last}
+                </span>
               </div>
               <div className="flex justify-between mt-2 mr-5">
                 <span>Email</span>
                 <span className="uppercase">{product.seller.email}</span>
+              </div>
+              <div className="flex justify-between mt-2 mr-5">
+                <span>Mobile</span>
+                <span className="uppercase">{product.seller.mobile}</span>
               </div>
             </div>
             <Divider />

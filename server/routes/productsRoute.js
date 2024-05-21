@@ -16,7 +16,7 @@ router.post('/add-product', authMiddleware, async (req, res) => {
     admins.forEach(async (admin) => {
       const newNotification = new Notification({
         user: admin._id,
-        order: `New product added by ${req.user.name}`,
+        order: `New product added by ${req.user}`,
         title: 'New product',
         onClick: `/admin`,
         read: false,

@@ -5,6 +5,8 @@ import Users from './Users';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import Requests from './Requests';
+import Messages from './Messages';
 function Admin() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.users);
@@ -21,6 +23,12 @@ function Admin() {
         </Tabs.TabPane>
         <Tabs.TabPane tab="Users" key="2">
           <Users />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Requests" key="3">
+          <Requests />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Messages" key="4">
+          <Messages />
         </Tabs.TabPane>
       </Tabs>
     </div>

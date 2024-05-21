@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoader } from '../redux/loadersSlice';
 import { setUser } from '../redux/userSlice';
+import { LogOut } from 'lucide-react';
 import Notification from './Notification';
 import {
   GetAllNotification,
@@ -25,12 +26,12 @@ function ProtectedPage({ childern }) {
       if (response.success) {
         dispatch(setUser(response.data));
       } else {
-        navigate('/login');
+        navigate('/');
         message.error(response.message);
       }
     } catch (error) {
       dispatch(setLoader(false));
-      navigate('/login');
+      navigate('/landing');
       message.error(error.message);
     }
   };
@@ -66,30 +67,42 @@ function ProtectedPage({ childern }) {
       validateToken();
       getNotifications();
     } else {
-      navigate('/login');
+      navigate('/landing');
     }
   }, []);
 
   return (
     user && (
       <div>
-        <div className="flex justify-between items-center p-4 bg-[#F55D00]">
+        <div className="flex justify-between items-center no-underline p-4 bg-gray-900">
           <Link className="Link1" to={'/'}>
             <h1 className="text-4xl text-white ml-10">Joumla</h1>
           </Link>
-          <div className="bg-white py-2 px-5 mr-10 rounded-full flex gap-1 items-center">
-            <i className="ri-user-fill cursor-pointer"></i>
+          <div className=" py-2 px-5 mr-10 rounded-full flex gap-1 items-center">
+            <div className="flex mr-6 ">
+              <h1 className="text-2xl " hidden={user.role !== 'user'}>
+                <Link
+                  className="no-underline text-[#F55D00]"
+                  to="/sellerRequest"
+                >
+                  Be a seller
+                </Link>
+              </h1>
+            </div>
+            <i className="ri-user-fill cursor-pointer text-white"></i>
             <span
               className="underline cursor-pointer uppercase"
               onClick={() => {
                 if (user.role === 'seller') {
                   navigate('/profile');
+                } else if (user.role === 'user') {
+                  navigate('/userprofile');
                 } else {
                   navigate('/admin');
                 }
               }}
             >
-              {user.name}
+              <Link className="pr-5  text-white no-underline">{user.username}</Link>
             </span>
             <Badge
               count={
@@ -103,18 +116,18 @@ function ProtectedPage({ childern }) {
               className=" cursor-pointer"
             >
               <Avatar
-                className="bg-white text-gray-900"
-                shape="circle"
-                icon={<i className="ri-notification-line"></i>}
+                className="text-white bg-[#F55D00]"
+                shape="square"
+                icon={<i className="ri-notification-3-fill"></i>}
               />
             </Badge>
-            <i
-              className="ri-logout-box-r-fill ml-5 cursor-pointer"
+            <LogOut
+              className=" ml-5 cursor-pointer bg-none text-white"
               onClick={() => {
                 localStorage.removeItem('token');
-                navigate('/login');
+                navigate('/landing');
               }}
-            ></i>
+            />
           </div>
         </div>
         <div className="p-5">{childern}</div>

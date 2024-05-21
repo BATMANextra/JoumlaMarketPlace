@@ -7,6 +7,7 @@ import Divider from '../../components/Divider';
 import { useNavigate } from 'react-router-dom';
 import Filters from './Filters';
 import moment from 'moment';
+import { ListFilter } from 'lucide-react';
 function Home() {
   const [showFilters, setShowFilters] = React.useState(true);
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ function Home() {
   }, [filters]);
 
   return (
-    <div className="flex gap-5 ml-1">
+    <div className="flex  gap-5 ml-1">
       {showFilters && (
         <Filters
           showFilters={showFilters}
@@ -46,10 +47,10 @@ function Home() {
       <div className="flex flex-col gap-5 w-full mr-2 ">
         <div className="flex gap-5 items-center ml-5">
           {!showFilters && (
-            <i
-              className="ri-filter-3-fill text-9xl w-2 h-8 py-2 cursor-pointer"
+            <ListFilter 
+              className="ri-filter-3-fill text-9xl h-12 w-16 text-gray-900  py-2 cursor-pointer"
               onClick={() => setShowFilters(!showFilters)}
-            ></i>
+              ></ListFilter>
           )}
           <input
             type="search"

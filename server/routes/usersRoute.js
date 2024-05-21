@@ -125,4 +125,20 @@ router.put('/update-user-status/:id', authMiddleware, async (req, res) => {
   }
 });
 
+// update request role
+router.put('/update-user-role/:id', authMiddleware, async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(req.params.id, req.body);
+    res.send({
+      success: true,
+      message: 'User Role updated successfully',
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
 module.exports = router;

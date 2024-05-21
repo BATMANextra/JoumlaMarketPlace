@@ -36,7 +36,7 @@ export const GetCurrentUser = async () => {
 // get all users
 export const GetAllUsers = async () => {
   try {
-    const response = await axiosInstance.get('api/users/get-users');
+    const response = await axiosInstance.get('/api/users/get-users');
     return response.data;
   } catch (error) {
     return error.message;
@@ -49,6 +49,19 @@ export const UpdateUserStatus = async (id, status) => {
     const response = await axiosInstance.put(
       `/api/users/update-user-status/${id}`,
       {status}
+    );
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+// update user role
+export const UpdateUserRole = async (id, role) => {
+  try {
+    const response = await axiosInstance.put(
+      `/api/users/update-user-role/${id}`,
+      { role }
     );
     return response.data;
   } catch (error) {

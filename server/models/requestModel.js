@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const userShema = mongoose.Schema(
+const requestShema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -14,6 +14,18 @@ const userShema = mongoose.Schema(
       type: String,
       required: true,
     },
+    wilaya: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    business: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
@@ -23,28 +35,12 @@ const userShema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    password: {
-      type: String,
-      required: true,
-    },
-    role: {
-      type: String,
-      default: 'user',
-    },
-    status: {
-      type: String,
-      default: 'active',
-    },
-    profilePicture: {
-      type: String,
-      default: '',
-    },
   },
   {
     timestamps: true,
   }
 );
 
-const User = mongoose.model('users', userShema);
+const Request = mongoose.model('requests', requestShema);
 
-module.exports = User;
+module.exports = Request;

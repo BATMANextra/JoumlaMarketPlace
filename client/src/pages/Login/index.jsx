@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { LoginUser } from '../../apicalls/users';
 import { useDispatch } from 'react-redux';
 import { setLoader } from '../../redux/loadersSlice';
+import Header from '../../components/Header';
 const rules = [
   {
     required: true,
@@ -37,8 +38,13 @@ const Login = () => {
     }
   }, []);
   return (
-    <div className="h-screen flex justify-center items-center bg-zinc-200">
-      <div className="bg-zinc-200 p-6 rounded w-[450px]">
+    <div>
+      <Header />
+      <div className="h-screen flex flex-col justify-center items-center bg-zinc-100">
+      <div className='mb-12'>
+      <h1 className="text-gray-900 text-5xl ml-4">Login with your account</h1>
+      </div>
+      <div className="bg-white border-solid border-5 border-gray-200 p-6 rounded w-[450px]">
         <h1>
           JOUMLA <span className="text-[#F55D00]">LOGIN</span>
         </h1>
@@ -53,13 +59,14 @@ const Login = () => {
           <Button type="primary" htmlType="submit" block className="mt-2">
             Login
           </Button>
-          <div className="mt-5 text-center">
-            <span className="text-[#F55D00]">
-              Don't have an account? <Link to="/Register">Register</Link>
+          <div className="mt-5 text-center ">
+            <span className="text-gray-900 text-xl">
+              Don't have an account? <Link className='uppercase' to="/Register">Register</Link>
             </span>
           </div>
         </Form>
       </div>
+    </div>
     </div>
   );
 };

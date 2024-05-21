@@ -4,6 +4,7 @@ import Products from './Products';
 import UserOrders from './Products/UserOrder';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import General from './Products/General';
 
 function Profile() {
   const { user } = useSelector((state) => state.users);
@@ -17,14 +18,7 @@ function Profile() {
           <UserOrders />
         </Tabs.TabPane>
         <Tabs.TabPane tab="General" key="3">
-          <div className="flex flex-col">
-            <h1>Name : {user.name}</h1>
-            <h1>Email : {user.email}</h1>
-            <span>
-              Created At :{' '}
-              <b>{moment(user.createdAt).format('MMM D , YYYY:hh:mm A')}</b>
-            </span>
-          </div>
+          <General />
         </Tabs.TabPane>
       </Tabs>
     </div>

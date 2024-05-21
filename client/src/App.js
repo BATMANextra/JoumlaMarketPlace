@@ -8,6 +8,9 @@ import Spinner from './components/Spinner';
 import Profile from './pages/profile';
 import Admin from './pages/Admin';
 import ProductInfo from './pages/ProductInfo';
+import Landing from './pages/Landing';
+import Userprofile from './pages/Userprofile';
+import SellerRequest from './pages/SellerRequest';
 
 function App() {
   const { loading } = useSelector((state) => state.loaders);
@@ -18,6 +21,7 @@ function App() {
 
         <main>
           <Routes>
+            <Route path="/landing" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>
@@ -26,9 +30,10 @@ function App() {
         <main>
           <Routes>
             <Route path="/product/:id" element={<ProductInfo />} />
-            
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/userprofile" element={<Userprofile />} />
+            <Route path="/sellerRequest" element={<SellerRequest />} />
             <Route path="/admin" element={<Admin />} />
           </Routes>
         </main>
